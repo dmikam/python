@@ -1,5 +1,7 @@
 class TParser(object):
 	skipSymbols = ''
+	startSymbols = ''
+	endSymbols = ''
 	validSymbols = ''
 	stopOnInvalid = False
 
@@ -10,8 +12,17 @@ class TParser(object):
 		self.stack = []
 	# /__init__
 
-	def __str__(self):
-		print self.name()
+	def __str__(self,prefix=''):
+		s = prefix + self.name() + '('+str(self.val)+')' + '\n'
+		if len(self.stack)>0:
+			prefix += '    '
+			s += prefix + '|\n'
+			for sub in self.stack:
+				s += sub.__str__(prefix)
+
+		return s
+
+	# /str
 
 	@staticmethod
 	def makeStringIter(s):
@@ -78,7 +89,7 @@ class TParser(object):
 
 	def parse(self):
 		stop = False
-		print self.name()
+		# print self.name()
 		while not stop:
 			ch = self.next()
 
@@ -103,8 +114,8 @@ class TParser(object):
 				if len(parserCandidats):
 					# just for now, we'll use only the first found candidate
 					parser = parserCandidats[0](self.iter)
+					parser.val = ch
 					self.stack.append(parser.parse())
-					# print parser
 				else:
 					self.error('Unexpected symbol "{}" found in {}'.format(ch,self.name()))
 			# /else
@@ -140,9 +151,9 @@ class T_BRACKET(TParser):
 		else:
 			return False
 
-s = "25 * ( 2 + 3 * 5)"
-parser = TParser.newParser(s)
+s = "25 + ( 2 + 33 * 45) * 4"
+parser = T_EXPRESSION.newParser(s)
 # parser.error('TEST ERROR THROWING')
 parser.parse()
 
-print parser.stack
+print str(parser)
