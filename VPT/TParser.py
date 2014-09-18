@@ -1,15 +1,10 @@
 class TParser(object):
-	skipSymbols = ''
-	startSymbols = ''
-	endSymbols = ''
-	validSymbols = ''
-	stopOnInvalid = False
-
-	def __init__(self, stringIter):
+	def __init__(self, name, rules):
 		self.iter = stringIter
-		self.type = 'PARSER'
 		self.val = ''		# Accumulative value from chars from the tape
 		self.stack = []
+		self.name = name
+		self.rules = rules
 	# /__init__
 
 	def __str__(self,prefix=''):
@@ -124,3 +119,13 @@ class TParser(object):
 		return self
 	# /parse
 # /class TParser
+
+class L(object):
+	def __init__(self,name)
+		self.name = name
+
+
+
+class REGEXP(object):
+	def __init__(self, exp):
+		self.exp = exp
