@@ -1,0 +1,3 @@
+#!c:\Users\Dima\py\python.exe
+from fs.commands.fscp import run
+run()

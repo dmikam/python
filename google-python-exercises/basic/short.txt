@@ -1,0 +1,3 @@
+Note: the standard python module 'random' includes a
+random.choice(list) method which picks a random element
+from a non-empty list.
