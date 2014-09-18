@@ -1,7 +1,6 @@
-class TParser:
-	tEXP	= 'EXP'
-	tNUM	= 'NUM'
-	tOP		= 'OP'
+class TParser(object):
+	skipSymbols = ' \t'
+	validSymbols = ''
 
 	def __init__(self, stringIter):
 		self.iter = stringIter
@@ -15,17 +14,60 @@ class TParser:
 			yield ch
 
 	@classmethod
-	def newParser(selfClass,s):
-		iter = selfClass.makeStringIter(s)
-		return selfClass(iter)
+	def newParser(CLASS,s):
+		iter = CLASS.makeStringIter(s)
+		return CLASS(iter)
 
 	def next(self):
-		return self.iter.next()
+		return next(self.iter,None)
+
+	@classmethod
+	def getParsers(CLASS):
+		return TParser.__subclasses__()
+
+	@classmethod
+	def name(CLASS):
+		return CLASS.__name__
+
+	@classmethod
+	def detect(CLASS):
+		for parser in CLASS.getParsers():
+			parser
+
+	@classmethod
+	def error(CLASS,text):
+		raise Exception(CLASS.name() + ': ' + text)
+
+	def skipSymbol(self,ch):
+		return ch in self.skipSymbols
+
+	def validSymbol(self,ch):
+		return ch in self.validSymbols
+
+	"""
+		Checks if the string is valid for this type of object.
+		For example:
+			- "23.4.5" isn't valid number,
+			- "func(tion(" is not valid function
+	"""
+	def valid(self,value):
+		return True
 
 	def parse(self):
 		stop = False
 		while not stop:
 			ch = self.next()
+			if not ch:
+				break
+
+			if self.skipSymbol(ch):
+				continue
+			print ch
+
+			if self.validSymbol(ch) and self.valid(self.val + ch):
+				self.val += ch
+			else:
+				self.defect()
 
 
 class T_EXP(TParser):
@@ -33,8 +75,9 @@ class T_EXP(TParser):
 		super(TEXP, self).__init__()
 		self.arg = arg
 
-s = "Hello World"
+s = "25 * ( 2 + 3 * 5)"
 parser = TParser.newParser(s)
+# parser.error('TEST ERROR THROWING')
+parser.parse()
 
-for ch in parser.iter:
-	print ch
+print parser.val
