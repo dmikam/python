@@ -17,7 +17,7 @@ DICT = [
 		),
 		(
 			L('NAME'),
-			L('LETTER')
+			L('DIGIT')
 		)
 	]),
 	R('SNG_STRING', (
