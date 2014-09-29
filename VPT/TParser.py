@@ -1,4 +1,5 @@
 from TGrammar import *
+from TLiteral import *
 
 class TParser(object):
 	def __init__(self,grammar,input):
@@ -14,26 +15,47 @@ class TParser(object):
 			return None
 
 	def stackPush(self,newVal):
-		self.stack.append(newVal)
+		print "------------------------------------------------------------------------"
+		print "                            PUSH TO STACK                               "
+		print "------------------------------------------------------------------------"
+		newStack = self.stack[:]
+		newStack.append(newVal)
+		symbol = self.convertSymbol(tuple(newStack))
+		if symbol!=None:
+			self.stack.append(symbol)
+			return True
 
+		return False
 
 
 	def convertSymbol(self,symbol):
 		for rule in self.grammar:
-			if type(rule.value) is str and type(symbol) is str and rule.value==symbol:
-				return L(rule.name)
-			# elif type(rule.value) is tuple and
+			if rule.test(symbol)>0:
+			# if rule.test(symbol)>=0:
+				return TLiteral(rule.name,symbol)
+
+		return None
+
 
 	def parse(self):
 		ch = self.nextChar()
 		while ch!=None:
-			print ch
-			ch = self.nextChar()
-			symbol = ch
-			while symbol!=None:
-				if self.stackPush(ch):
+			print "'" + str(ch) + "'"
+			literal = ch
+			while literal!=None:
+				print str(literal)
+				if self.stackPush(literal):
+					print "------------------------------------------------------------------------"
+					print "=====>STACK: ",str(self.stack)
+					print "------------------------------------------------------------------------"
 					break;
 				else:
-					symbol = self.convertSymbol(symbol)
+					print "------------------------------------------------------------------------"
+					print "                           CONVERT SYMBOL                               "
+					print "------------------------------------------------------------------------"
+					literal = self.convertSymbol(literal)
+					print "!!!!!!!!", literal
+
+			ch = self.nextChar()
 
 		print "FIN"

@@ -12,15 +12,20 @@ GRAMMAR = [
 		'A','B','C','D','E','F','G','H','I','G','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
 	]),
 	TRule('NAME',		[
-		TLiteral('LETTER'),
 		(
-			TLiteral('NAME'),
-			TLiteral('LETTER')
+			TLiteral('LETTER'),
+			[
+				TLiteral('LETTER'),
+				TLiteral('DIGIT')
+			]
 		),
 		(
 			TLiteral('NAME'),
-			TLiteral('DIGIT')
-		)
+			[
+				TLiteral('LETTER'),
+				TLiteral('DIGIT')
+			]
+		),
 	]),
 	TRule('SNG_STRING', (
 		# TRegexp('/"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"/s')
