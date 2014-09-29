@@ -5,5 +5,6 @@ from TLiteral import *
 prefix = ''
 
 
-parser = TParser(GRAMMAR,'Dima	 and  	  Olya')
+parser = TParser(GRAMMAR,'Walking dead are alive ()')
 parser.parse()
+parser.stackPrint()

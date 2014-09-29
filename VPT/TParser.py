@@ -47,6 +47,10 @@ class TParser(object):
 			if noChanges:
 				break
 
+	def stackPrint(self):
+		for item in self.stack:
+			print item.result()
+
 
 	def convertSymbol(self,symbol):
 		for rule in self.grammar:
