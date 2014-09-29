@@ -6,8 +6,9 @@ class TLiteral(object):
 	def __str__(self):
 		val = ''
 		if self.value!=None:
-			val = ':' + str(self.value)
-		return self.__class__.__name__ + '(' + self.name + val + ')'
+			val = str(tuple(self.value))
+		# return self.__class__.__name__ + '(' + self.name + val + ')'
+		return self.name + val
 
 	def __repr__(self):
 		return str(self)

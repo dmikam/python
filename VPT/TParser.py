@@ -20,18 +20,37 @@ class TParser(object):
 		print "------------------------------------------------------------------------"
 		newStack = self.stack[:]
 		newStack.append(newVal)
-		symbol = self.convertSymbol(tuple(newStack))
-		if symbol!=None:
-			self.stack.append(symbol)
-			return True
+
+		for i in xrange(len(newStack)):
+			print 'i=',i
+			symbol = self.convertSymbol(tuple(newStack[i:]))
+			if symbol!=None:
+				self.stack.append(symbol)
+				return True
 
 		return False
+
+	def stackInspect(self):
+		print "------------------------------------------------------------------------"
+		print "                            STACK INSPECT                               "
+		print "------------------------------------------------------------------------"
+		while True:
+			noChanges = True
+			for i in xrange(len(self.stack)):
+				print 'i=',i
+				symbol = self.convertSymbol(tuple(self.stack[i:]))
+				if symbol!=None:
+					self.stack = self.stack[:i]
+					self.stack.append(symbol)
+					noChanges = False
+
+			if noChanges:
+				break
 
 
 	def convertSymbol(self,symbol):
 		for rule in self.grammar:
 			if rule.test(symbol)>0:
-			# if rule.test(symbol)>=0:
 				return TLiteral(rule.name,symbol)
 
 		return None
@@ -42,19 +61,13 @@ class TParser(object):
 		while ch!=None:
 			print "'" + str(ch) + "'"
 			literal = ch
-			while literal!=None:
-				print str(literal)
-				if self.stackPush(literal):
-					print "------------------------------------------------------------------------"
-					print "=====>STACK: ",str(self.stack)
-					print "------------------------------------------------------------------------"
-					break;
-				else:
-					print "------------------------------------------------------------------------"
-					print "                           CONVERT SYMBOL                               "
-					print "------------------------------------------------------------------------"
-					literal = self.convertSymbol(literal)
-					print "!!!!!!!!", literal
+
+
+			self.stackPush(literal)
+			self.stackInspect()
+			print "------------------------------------------------------------------------"
+			print "=====>STACK: ",str(self.stack)
+			print "------------------------------------------------------------------------"
 
 			ch = self.nextChar()
 

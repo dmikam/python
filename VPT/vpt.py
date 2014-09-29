@@ -5,5 +5,5 @@ from TLiteral import *
 prefix = ''
 
 
-parser = TParser(GRAMMAR,'Di')
+parser = TParser(GRAMMAR,'Dima	 and  	  Olya')
 parser.parse()
