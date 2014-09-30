@@ -48,8 +48,9 @@ class TParser(object):
 					print '----------------------------------'
 					noChanges = False
 
-			if noChanges:
-				break
+			break
+			# if noChanges:
+			# 	break
 
 	def stackInspectFromHead(self):
 		print "------------------------------------------------------------------------"

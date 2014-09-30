@@ -2,6 +2,13 @@ class TLiteral(object):
 	def __init__(self,name,value=None):
 		self.name	= name
 		self.value	= value
+		self.closed	= False
+
+	def close(self):
+		self.closed = True
+
+	def isClosed(self):
+		return self.closed
 
 	def __str__(self):
 		val = ''
