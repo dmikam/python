@@ -6,6 +6,7 @@ class TLiteral(object):
 	def __str__(self):
 		val = ''
 		if self.value!=None:
+			# val = str(self.value)
 			val = str(tuple(self.value))
 		# return self.__class__.__name__ + '(' + self.name + val + ')'
 		return self.name + val
@@ -18,8 +19,25 @@ class TLiteral(object):
 			print str(self) + ' == ' + str(other)
 			return True
 		else:
-			print str(self) + ' != ' + str(other)
+			# print str(self) + ' != ' + str(other)
 			return False
+
+	def pack(self):
+		self.value = self.packValue(self.value)
+
+	@classmethod
+	def packValue(cl,value):
+		if isinstance(value,cl):
+			return value.val()
+		elif type(value) is str:
+			return value
+		elif type(value) is tuple or type(value) is list:
+			l = []
+			for item in value:
+				l.append(cl.packValue(item))
+			return ''.join(l)
+
+		return value
 
 	def val(self):
 		if type(self.value) is str:

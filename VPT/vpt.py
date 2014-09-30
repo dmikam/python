@@ -2,9 +2,9 @@ from TParser import *
 from RGrammar import *
 from TLiteral import *
 
-prefix = ''
+text = "NUM:DIGIT|NUM   DIGIT;"
+# text = "   "
 
-
-parser = TParser(GRAMMAR,'Walking dead are alive ()')
+parser = TParser(GRAMMAR,text)
 parser.parse()
 parser.stackPrint()

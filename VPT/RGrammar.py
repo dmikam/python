@@ -37,18 +37,58 @@ GRAMMAR = [
 		TLiteral('SNG_STRING'),
 		TLiteral('DBL_STRING')
 	]),
+
+	TRule('EOLNCHAR',	[ '\n', '\r' ]),
+
+	TRule('EOLN',	(
+		[
+			'EOLNCHAR',
+			'EOLN'
+		],
+		'EOLN'
+	)),
 	TRule('WSPACECHAR',	[
 		' ',
 		'\t',
 	]),
-	TRule('WSPACE',	(
-		[
-			TLiteral('WSPACECHAR'),
+	TRule('WSPACE',	[
+		TLiteral('WSPACECHAR'),
+		(
 			TLiteral('WSPACE'),
-		],
-		TLiteral('WSPACECHAR')
+			TLiteral('WSPACECHAR')
+		)
+	]),
+	TRule('COLON',':'),
+	TRule('SEMICOLON',';'),
+	TRule('OR','|'),
+
+	TRule('EXPRESSION',(
+		TLiteral('NAME'),
+		TLiteral('WSPACE'),
+		TLiteral('NAME'),
 	)),
-	# TRule('RULE', [
-	# 	[]
-	# ])
+
+	TRule('RULEITEM',[
+		(
+			[TLiteral('COLON'),TLiteral('OR')],
+			TLiteral('NAME'),
+		),
+		(
+			TLiteral('RILEITEM'),
+			[
+				TLiteral('WSPACE'),
+				TLiteral('NAME')
+			]
+		)
+	]),
+	# TRule('RULE',[
+	# 	(
+	# 		TLiteral('NAME'),
+	# 		[TLiteral('RULEITEM'), TLiteral('NAME')]
+	# 	),
+	# 	(
+	# 		TLiteral('RULE'),
+	# 		[TLiteral('RULEITEM'), TLiteral('NAME')]
+	# 	),
+	# ]),
 ]
